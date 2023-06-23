@@ -1,0 +1,11 @@
+.title {
+    text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: red;
+    outline-color: blue;
+
+}
+
+body {
+    background-color: rgb(82, 16, 16);
+}
