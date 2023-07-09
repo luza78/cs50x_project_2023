@@ -1,16 +1,22 @@
 .title {
     text-align: center;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: red;
-    outline-color: rgb(99, 99, 238);
+    color: rgb(31, 28, 28);
+    outline-color: rgb(255, 255, 255);
+}
 
+.error {
+    position: relative;
+    text-align: center;
+    color: red;
+    
 }
 
 body {
     background-color: rgb(109, 186, 238);
 }
 
-form {
+.form {
     margin-left: auto;
     margin-right: auto;
     margin-top: 10%;

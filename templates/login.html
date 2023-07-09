@@ -6,17 +6,18 @@ Project Login
 
 {% block body %}
     <h1 class="title">Login</h1>
-
-    <form action="/login" method="post">
-        <div>
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
-        </div>
-        <div>
-            <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
-        </div>
-        <div>
-            <input name="email" placeholder="Email" type="text">
-        </div>
-        <button class="btn btn-primary" type="submit">Log In</button>
+    
+    <div class="form">
+    {% for message in get_flashed_messages() %}
+      <h5 class="error">{{ message }}</h5>
+      {% endfor %}
+    
+      <form action="/login" method="post">
+        
+        <input autocomplete="off" autofocus name="email" placeholder="Email" type="text">
+        <input name="password" placeholder="Password" type="password">
+        
+        <button type="submit">Log In</button>
     </form>
+    </div>
 {% endblock %}
