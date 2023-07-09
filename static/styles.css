@@ -2,10 +2,17 @@
     text-align: center;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: red;
-    outline-color: blue;
+    outline-color: rgb(99, 99, 238);
 
 }
 
 body {
-    background-color: rgb(82, 16, 16);
+    background-color: rgb(109, 186, 238);
+}
+
+form {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    width: 140px;
 }
