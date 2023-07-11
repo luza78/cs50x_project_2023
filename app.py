@@ -1,7 +1,8 @@
-from flask import Flask, render_template, redirect, request, session, flash
+from flask import Flask, render_template, redirect, request, session, flash, send_file
 from flask_session import Session
+from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
-from helpers import login_required
+from helpers import login_required, get_user, register_user
 
 # Configure Flask
 app = Flask(__name__)
@@ -12,14 +13,10 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Connect Database
-conn = sqlite3.connect("/Users/starkindustries/Desktop/project/webapp/intranet.db")
-
-# Create cursor
-cur = conn.cursor()
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    
     if request.method == "POST":
         
         # Gets user input from form
@@ -35,34 +32,120 @@ def login():
             flash("Enter your password")
             return render_template("login.html")
         
-        # Lookup in db
-        db_lookup = cur.execute("SELECT email, hash FROM users WHERE email = ?;", email)
+        # Looks for email in user database
+        db_lookup = get_user(email)
         
-        # Looks to see if they match a user
-        if not db_lookup["email"]:
+        # Handles if email not found
+        if not db_lookup:
             flash("Email is not recognized")
             return render_template("login.html")
         
-        if not db_lookup["hash"]:
+        # Need to hash password etc
+        if not check_password_hash(db_lookup[1], password):
             flash("Incorrect password")
             return render_template("login.html")
-        
-        
-
-        return redirect("/")
+        else:
+            # Starts session (user_id is the email)
+            session['user_id'] = db_lookup[0]
+            return redirect("/")
     return render_template("login.html")
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
+    
     if request.method == "POST":
-        return None
+        
+        # Get form inputs
+        email = request.form.get("email")
+        name = request.form.get("name")
+        password = request.form.get("password")
+
+        # Validate inputs
+        if not email:
+            flash("Enter an email address")
+            return render_template("register.html")
+        
+        if not name:
+            flash("Enter your name")
+            return render_template("register.html")
+        
+        if not password:
+            flash("Enter a password")
+            return render_template("register.html")
+        
+        elif len(password) < 4:
+            flash("Password must be longer than 4 characters")
+            return render_template("register.html")
+        
+        # Look email up in DB
+        db_email = get_user(email)
+
+        if not db_email:
+            flash("Email not found")
+            return render_template("register.html")
+        
+        # Sees if user already exists
+        elif db_email[1]:
+            flash("User already exists")
+            return render_template("register.html")
+        
+        # Hash password
+        hash = generate_password_hash(password)
+
+        # Update name & hash where email matches
+        register_user(name, hash, email)
+
+        return redirect("/")
     return render_template("register.html")
+
+@app.route("/logout")
+def logout():
+    
+    # Clears current session data
+    session.clear()
+
+    # Redirects to login
+    return redirect("/")
+
+
+@app.route("/download/<string:dl_id>")
+@login_required
+def download(dl_id):
+    
+    if dl_id:
+        
+        path="/Users/starkindustries/Desktop/project/webapp/static/downloads/" + dl_id
+
+        return send_file(path, dl_id, as_attachment=True)
+    
+    else:
+        
+        return redirect("/documents")
 
 
 @app.route("/")
 @login_required
 def index():
+    
     return render_template("index.html")
+
+@app.route("/planner")
+@login_required
+def planner():
+    
+    return redirect("static/22_23_planner.pdf")
+
+@app.route("/documents")
+@login_required
+def documents():
+    
+    return render_template("documents.html")
+
+@app.route("/admin")
+@login_required
+def admin():
+    
+    return render_template("admin.html")
 
 
 if __name__ == "__main__":

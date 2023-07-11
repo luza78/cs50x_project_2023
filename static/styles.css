@@ -1,6 +1,5 @@
 .title {
     text-align: center;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: rgb(31, 28, 28);
     outline-color: rgb(255, 255, 255);
 }
@@ -20,5 +19,14 @@ body {
     margin-left: auto;
     margin-right: auto;
     margin-top: 10%;
-    width: 140px;
+    width: 176px;
+}
+
+.downloads {
+    position: relative;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 40px;
+    top: 240px;
 }

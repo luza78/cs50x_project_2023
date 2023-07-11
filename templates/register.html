@@ -6,13 +6,19 @@ Project Register
 
 {% block body %}
     <h1 class="title">Register</h1>
-    <form action="/login" method="post">
-        <div class="mb-3">
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
-        </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
-        </div>
-        <button class="btn btn-primary" type="submit">Create User</button>
+        
+    <div class="form">
+    {% for message in get_flashed_messages() %}
+    <h5 class="error">{{ message }}</h5>
+    {% endfor %}
+
+    <form action="/register" method="post">
+        
+        <input autocomplete="off" autofocus name="email" placeholder="Email" type="text">
+        <input autocomplete="off" name="name" placeholder="Name" type="text">
+        <input name="password" placeholder="Password" type="password">
+        
+        <button type="submit">Register Now</button>
     </form>
+    </div>
 {% endblock %}
