@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Admin Users
+{% endblock %}
+
+{% block body %}
+    <h1 class="title">Modify Users</h1>
+    
+    <div class="boxfull center">
+    
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+      <h5 class="alert-{{category}} center">{{ message }}</h5>
+    {% endfor %}
+    <br><br>  
+    <h2 class="title">Add user</h2>
+      <form action="/adduser" method="post">
+        
+        <input autocomplete="off" autofocus name="email" placeholder="New users email" type="text">
+        <select name="type">
+                <option value="standard">Standard User</option>
+                <option value="admin">Admin User</option>
+        </select>
+        
+        <button class="btn btn-success" type="submit">Add User</button>
+    </form>
+    </div>
+{% endblock %}
