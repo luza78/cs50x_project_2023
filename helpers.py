@@ -9,7 +9,7 @@ def get_user(email):
     cur = conn.cursor()
 
         # Lookup in db
-    cur.execute("SELECT email, hash FROM users WHERE email = ?;", [email])
+    cur.execute("SELECT email, hash, type FROM users WHERE email = ?;", [email])
 
     db_lookup = cur.fetchone()
 
@@ -27,6 +27,23 @@ def register_user(name, hash, email):
     sql = "UPDATE users SET name = ?, hash = ?, type = 'standard' WHERE email = ?;"
     update = (name, hash, email)
     cur.execute(sql, update)
+
+    conn.commit()
+
+    # Close connection
+    conn.close()
+    return
+
+def admin_add_user(email, type):
+    # Connect Database
+    conn = sqlite3.connect("intranet.db")
+    # Create cursor
+    cur = conn.cursor()
+
+    # Update db, registering the user
+    sql = "INSERT INTO users(email, type) VALUES(?, ?);"
+    insert = (email, type)
+    cur.execute(sql, insert)
 
     conn.commit()
 

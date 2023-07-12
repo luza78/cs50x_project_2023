@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, request, session, flash, sen
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
-from helpers import login_required, get_user, register_user
+from helpers import login_required, get_user, register_user, admin_add_user
 
 # Configure Flask
 app = Flask(__name__)
@@ -45,8 +45,9 @@ def login():
             flash("Incorrect password")
             return render_template("login.html")
         else:
-            # Starts session (user_id is the email)
+            # Starts session (user_id is the email, user type is type)
             session['user_id'] = db_lookup[0]
+            session['user_type'] = db_lookup[2]
             return redirect("/")
     return render_template("login.html")
 
@@ -146,6 +147,47 @@ def documents():
 def admin():
     
     return render_template("admin.html")
+
+@app.route("/users")
+@login_required
+def users():
+    
+    return render_template("users.html")
+
+@app.route("/editusers", methods=["POST"])
+@login_required
+def editusers():
+    
+    return redirect("/users")
+
+@app.route("/adduser", methods=["POST"])
+@login_required
+def adduser():
+
+    email = request.form.get("email")
+    type = request.form.get("type")
+
+    # Validate input
+    if not email:
+        flash("Enter an email address", "error")
+        return redirect("/users")
+    
+    if not type:
+        flash("Type select error", "error")
+        return redirect("/users")
+    
+    # Check email address is available
+    db_lookup = get_user(email)
+
+    if db_lookup:
+        flash("Email already in use", "error")
+        return redirect("/users")
+    
+    else:
+        admin_add_user(email, type)
+        flash("User added", "green")
+        return redirect("/users")
+
 
 
 if __name__ == "__main__":

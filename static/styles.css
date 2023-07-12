@@ -4,15 +4,8 @@
     outline-color: rgb(255, 255, 255);
 }
 
-.error {
-    position: relative;
-    text-align: center;
-    color: red;
-    
-}
-
 body {
-    background-color: rgb(109, 186, 238);
+    background-color: rgb(216, 230, 239);
 }
 
 .form {
@@ -24,9 +17,53 @@ body {
 
 .downloads {
     position: relative;
-    max-width: 600px;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
     padding: 40px;
     top: 240px;
+}
+
+.userbutton {
+    position: absolute;
+    margin-right: 0px;
+}
+
+.center {
+    text-align: center;
+}
+
+.alert-green {
+    color: green;
+    position: absolute;
+    right: 0;
+    left: 0;
+}
+
+.alert-error {
+    color: red;
+    position: absolute;
+    right: 0;
+    left: 0;
+    
+}
+
+.boxfull {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+    height: 400px;
+    top: 85px;
+    background-color: rgb(255, 255, 255);
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 40px;
+    border: solid;
+    border-width: 2px;
+    border-color: black;
+}
+
+.boxsmall {
+    width: 150px;
 }
