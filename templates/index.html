@@ -5,5 +5,30 @@ Intranet Schedule
 {% endblock %}
 
 {% block body %}
-    <h1 class="title">Index</h1>
+    <h1 class="title">Schedule Viewer</h1>
+    
+
+    <div class="container-fluid text-center mt-5 position-relative">
+        <div class="row">
+          <div class="col-5">
+          
+          </div>
+          <div class="col-2 text-center mt-4">
+        
+            {% for category, message in get_flashed_messages(with_categories=True) %}
+              <h5 class="alert-{{category}}" style="right: 0; left: 0; top: 5px;">{{ message }}</h5>
+            {% endfor %} 
+            <br> 
+            <div>
+              <a class="btn btn-lg btn-secondary" href="/scheduleview/{{ today_schedule[0] }}">View Today</a>
+            </div>
+            <div>
+              <a class="btn btn-lg btn-secondary mt-2" href="/scheduleview/{{ week_schedule[0] }}">View Week</a>
+            </div>
+          </div>
+            <div class="col-5">
+          
+          </div>
+        </div>
+      </div> 
 {% endblock %}

@@ -1,3 +1,7 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .title {
     text-align: center;
     color: rgb(31, 28, 28);
@@ -6,6 +10,10 @@
 
 body {
     background-color: rgb(216, 230, 239);
+}
+
+h1 {
+    font-size: 45pt;
 }
 
 .form {
@@ -20,13 +28,41 @@ body {
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+    padding: 80px;
+    top: 120px;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    background-color: lightgray;
+}
+
+.adminusers {
+    padding-left: 85.5px;
+    padding-right: 85.5px;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    background-color: lightgray;
+    margin-bottom: 10px;
+
+}
+
+.adminpanel {
+    position: relative;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
     padding: 40px;
-    top: 240px;
+    padding-top: 20px;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    background-color: lightgray;
 }
 
 .userbutton {
     position: absolute;
-    margin-right: 0px;
+    right: 0px;
 }
 
 .center {
@@ -36,18 +72,18 @@ body {
 .alert-green {
     color: green;
     position: absolute;
-    right: 0;
-    left: 0;
+  
 }
 
 .alert-error {
     color: red;
-    position: absolute;
-    right: 0;
-    left: 0;
-    
+    position:absolute;
 }
 
+.alert-users {
+    position: absolute;
+    width: 15.5%;
+}
 .boxfull {
     position: relative;
     margin-left: auto;
@@ -66,4 +102,30 @@ body {
 
 .boxsmall {
     width: 150px;
+}
+
+.boxsmall2 {
+    width: 300px;
+    height: 30px;
+}
+.bgblue {
+    background-color: blue;
+}
+
+.minvh100 {
+    min-height: 100vh;
+}
+
+td, th {
+    border: solid;
+    border-width: 1px;
+    border-color: grey;
+    vertical-align: middle;
+    font-weight: 500;
+    font-size: 17pt;
+    
+}
+
+th {
+    font-weight: bolder;
 }

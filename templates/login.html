@@ -6,18 +6,29 @@ Intranet Login
 
 {% block body %}
     <h1 class="title">Login</h1>
+
+  <div class="container-fluid text-center mt-5 position-relative">
+    <div class="row">
+      <div class="col-5">
+      
+      </div>
+      <div class="col-2 text-center mt-5">
     
-    <div class="form">
-    {% for message in get_flashed_messages() %}
-      <h5 class="error">{{ message }}</h5>
-      {% endfor %}
-    
-      <form action="/login" method="post">
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+          <h5 class="alert-{{category}}" style="top: 6; right: 0; left: 0;">{{ message }}</h5>
+        {% endfor %} 
+        <br> 
+        <form action="/login" method="post">
         
-        <input autocomplete="off" autofocus name="email" placeholder="Email" type="text">
-        <input name="password" placeholder="Password" type="password">
-        
-        <button type="submit">Log In</button>
-    </form>
+          <input autocomplete="off" autofocus name="email" placeholder="Email" type="text">
+          <input name="password" placeholder="Password" type="password">
+          
+          <button class="btn btn-primary" type="submit">Log In</button>
+      </form>
+      </div>
+      <div class="col-5">
+      
+      </div>
     </div>
+  </div>
 {% endblock %}

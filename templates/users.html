@@ -7,22 +7,79 @@ Admin Users
 {% block body %}
     <h1 class="title">Modify Users</h1>
     
-    <div class="boxfull center">
-    
-    {% for category, message in get_flashed_messages(with_categories=True) %}
-      <h5 class="alert-{{category}} center">{{ message }}</h5>
-    {% endfor %}
-    <br><br>  
-    <h2 class="title">Add user</h2>
-      <form action="/adduser" method="post">
+    <div class="container position-relative">
+      <div class="row">
+        <div class="col">
         
-        <input autocomplete="off" autofocus name="email" placeholder="New users email" type="text">
-        <select name="type">
-                <option value="standard">Standard User</option>
-                <option value="admin">Admin User</option>
-        </select>
+        </div>
+        <div class="col-5 adminusers pd-2 text-center mt-5 mb-2">
+      
+          
+          {% for category, message in get_flashed_messages(with_categories=True) %}
+            <h5 class="alert-{{category}}" style="right: 0; left: 0;">{{ message }}</h5>
+          {% endfor %} 
+          
+          <br>
+
+          <h2>Add user</h2>
+          
+          <form action="/adduser" method="post">
+            
+            <input autocomplete="off" autofocus name="email" placeholder="New users email" type="text">
+            <select name="type" style="margin-top: 0.5px;">
+                    <option value="standard">Standard User</option>
+                    <option value="admin">Admin User</option>
+            </select>
+            
+            <button class="btn btn-success m-2" type="submit">Add User</button>
+          </form>
+        </div>
+        <div class="col">
         
-        <button class="btn btn-success" type="submit">Add User</button>
-    </form>
-    </div>
+        </div>
+      </div>
+    </div>  <br>
+    <div class="container min-vh-100"> 
+      <table class="table mt-5 text-center">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th class="w-20">User Type</th>
+              <th class="w-20">Modify</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in users %}
+            {% if session["user_id"] != row.email %}
+            <tr class="table-light">
+              <td>{{ row.name }}</td>
+              <td>{{ row.email }}</td>
+              <td>{{ row.type }}</td>
+              <td>
+                <form action="/changeusertype" method="post">
+                  <input name="email" type="hidden" value="{{ row.email }}">
+                  <select name="type">
+                    <option value="standard">Standard</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                  <input class="btn btn-sm btn-info" type="submit" value="Edit Type">
+                </form>
+                
+                <form action="/resetuserpassword" method="post">
+                  <input name="email" type="hidden" value="{{ row.email }}">
+                  <input class="btn btn-sm btn-warning" type="submit" value="Reset Password">
+                </form>
+
+                <form action="/removeuser" method="post">
+                  <input name="email" type="hidden" value="{{ row.email }}">
+                  <input class="btn btn-sm btn-danger" type="submit" value="Remove User">
+                </form>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div> 
 {% endblock %}
