@@ -8,15 +8,15 @@ Admin Users
     <h1 class="title">Modify Users</h1>
     
     <div class="container position-relative">
-      <div class="row">
+      <div class="row" style="height: 220px;">
         <div class="col">
         
         </div>
-        <div class="col-5 adminusers pd-2 text-center mt-5 mb-2">
+        <div class="col-5 adminusers pd-2 text-center mt-5">
       
           
           {% for category, message in get_flashed_messages(with_categories=True) %}
-            <h5 class="alert-{{category}}" style="right: 0; left: 0;">{{ message }}</h5>
+            <h5 class="alert-{{category}} alert-fadeout" style="right: 0; left: 0; top: 53px;">{{ message }}</h5>
           {% endfor %} 
           
           <br>
@@ -25,7 +25,7 @@ Admin Users
           
           <form action="/adduser" method="post">
             
-            <input autocomplete="off" autofocus name="email" placeholder="New users email" type="text">
+            <input autocomplete="off" autofocus name="email" placeholder="Choose Users Email" type="text">
             <select name="type" style="margin-top: 0.5px;">
                     <option value="standard">Standard User</option>
                     <option value="admin">Admin User</option>

@@ -237,10 +237,11 @@ def get_casting_file(id):
     cur = conn.cursor()
 
     # Update db, registering the user
-    
     sql = "SELECT file, name FROM casting WHERE id = ?;"
-    #insert = (filename, data)
-    cur.execute(sql, id)
+    
+    # Make 'id' a tuple
+    select = (id,)
+    cur.execute(sql, select)
 
     db_lookup = cur.fetchone()
 

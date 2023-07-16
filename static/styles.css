@@ -72,18 +72,24 @@ h1 {
 .alert-green {
     color: green;
     position: absolute;
+    opacity: 0;
+    animation: fadeOut 12s ease-out;
   
 }
 
 .alert-error {
     color: red;
     position:absolute;
+    opacity: 0;
+    animation: fadeOut 12s ease-out;
 }
 
-.alert-users {
-    position: absolute;
-    width: 15.5%;
+@keyframes fadeOut {
+    0%  {opacity: 1;}
+    88%  {opacity: 1;}
+    100% {opacity: 0;}
 }
+
 .boxfull {
     position: relative;
     margin-left: auto;
@@ -129,3 +135,4 @@ td, th {
 th {
     font-weight: bolder;
 }
+

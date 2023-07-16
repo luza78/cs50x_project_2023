@@ -233,7 +233,7 @@ def uploadschedule():
         elif type is None:
             upload_schedule(file_name)
 
-        flash("Upload complete", "green")
+        flash(f"Upload of '{file_name}' succesful", "green")
         return redirect("/admin")
     
     else:
@@ -254,7 +254,7 @@ def uploadcasting():
         if data:
             upload_casting(data, file_name)
 
-        flash("Upload complete", "green")
+        flash(f"Upload of {file_name} was succesful", "green")
         return redirect("/admin")
     else:
         flash("Upload error", "error")
@@ -268,10 +268,11 @@ def removecasting():
     id = request.form.get("casting")
     if id:
         id = int(id)
-        # Remove db entry passing the id
+        # Get name, and remove db entry passing the id
+        casting_name = get_casting_file(id)
         remove_casting(id)
         
-        flash("Casting removed", "green")
+        flash(f"Casting '{casting_name[1]} has been removed", "green")
         return redirect("/admin")
     else:
         flash("No file selected, no changes made", "error")
@@ -296,7 +297,7 @@ def editusers():
     email = request.form.get("email")
     type = request.form.get("type")
     admin_change_user_type(email, type)
-    flash("User type updated", "green")
+    flash(f"User '{email}' changed to {type}", "green")
     return redirect("/users")
 
 # Resets a users password, allowing them to reregister with a new one
@@ -305,7 +306,7 @@ def editusers():
 def resetuserpassword():
     email = request.form.get("email")
     admin_reset_user_password(email)
-    flash("User password reset", "green")
+    flash(f"{email}'s password has been reset", "green")
     return redirect("users")
 
 # Removes a user
@@ -314,7 +315,7 @@ def resetuserpassword():
 def removeuser():
     email = request.form.get("email")
     admin_remove_user(email)
-    flash("User removed", "green")
+    flash(f"Removed {email} from users", "green")
     return redirect("/users")
 
 # Adds a user, allowing them to register using that email address
@@ -325,9 +326,10 @@ def adduser():
     email = request.form.get("email")
     type = request.form.get("type")
 
-    # Validate input
-    if not email:
-        flash("Enter an email address", "error")
+    # Checks if user input email, if it's longer than 4 characters
+    # Also looks if input string has '@' and a '.' on right of the '@'
+    if not email or len(email) < 4 or '@' and '.' not in email.rsplit('@', 1)[1]:
+        flash("Enter a valid email address", "error")
         return redirect("/users")
     
     if not type:
@@ -338,12 +340,12 @@ def adduser():
     db_lookup = get_user(email)
 
     if db_lookup:
-        flash("Email already in use", "error")
+        flash(f"The '{email}' already in use", "error")
         return redirect("/users")
     
     else:
         admin_add_user(email, type)
-        flash("User added", "green")
+        flash(f"'{email}' has been added to users", "green")
         return redirect("/users")
 
 

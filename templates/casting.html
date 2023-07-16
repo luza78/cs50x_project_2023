@@ -5,13 +5,13 @@ Intranet Casting
 {% endblock %}
 
 {% block body %}
-    <h1 class="title">Casting</h1>
-    
-    <div class="container-fluid downloads text-center">
-        <div>
-            {% for cast in casting %}
-            <a class="btn btn-info" href="/casting/{{ cast.id }}">{{ cast.name }}</a>
-            {% endfor %}
-        </div>
+<h1 class="title">Casting</h1>
+
+<div class="container-fluid downloads text-center">
+    <div>
+        {% for cast in casting %}
+        <a class="btn btn-info" href="/casting/{{ cast.id }}">{{ cast.name }}</a>
+        {% endfor %}
     </div>
+</div>
 {% endblock %}

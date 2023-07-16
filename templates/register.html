@@ -6,33 +6,26 @@ Intranet Register
 
 {% block body %}
 
+<h1 class="title">Register</h1>
 
-
-    <h1 class="title">Register</h1>
-
-  <div class="container-fluid text-center mt-5">
-    <div class="row">
-      <div class="col-5">
-      
-      </div>
-      <div class="col-2 text-center mt-3">
-    
-        {% for category, message in get_flashed_messages(with_categories=True) %}
-          <h5 class="alert-{{category}}">{{ message }}</h5>
-        {% endfor %} 
-        <br> 
-        <form action="/register" method="post">
-        
-            <input autocomplete="off" autofocus name="email" placeholder="Email" type="text">
-            <input autocomplete="off" name="name" placeholder="Name" type="text">
-            <input name="password" placeholder="Password" type="password">
-            
-            <button class="btn btn-success" type="submit">Register Now</button>
-        </form>
-      </div>
-      <div class="col-5">
-      
-      </div>
+<div class="container-fluid text-center mt-5">
+  <div class="row position-relative">
+    <div class="col-5">
+    </div>
+    <div class="col-2 text-center mt-3">
+      {% for category, message in get_flashed_messages(with_categories=True) %}
+      <h5 class="alert-{{category}}" style="right: 0; left: 0; top: 0;">{{ message }}</h5>
+      {% endfor %}
+      <br>
+      <form action="/register" method="post">
+        <input class="center" autocomplete="off" autofocus name="email" placeholder="Email" type="text">
+        <input class="center" autocomplete="off" name="name" placeholder="Name" type="text">
+        <input class="center" name="password" placeholder="Password" type="password">
+        <button class="btn btn-success" type="submit">Register Now</button>
+      </form>
+    </div>
+    <div class="col-5">
     </div>
   </div>
+</div>
 {% endblock %}

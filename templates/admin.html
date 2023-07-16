@@ -5,48 +5,43 @@ Project admin page
 {% endblock %}
 
 {% block body %}
-    <div class="userbutton">
-        <form action="/users">
-            <button class="btn btn-dark" type=submit>Users</button>
-        </form>
-    </div>
-    
-    <h1 class="title">Admin</h1> <br>
-    <div class="contain-fluid position-relative mb-5">
-        <div class="smallbox2">
-            {% for category, message in get_flashed_messages(with_categories=True) %}
-            <h5 class="alert-{{category}} top-50 start-50 translate-middle">{{ message }}</h5>
-            {% endfor %}  
-        </div>
-    </div>
-    <div class="adminpanel text-center mt-5">
-        <h2 class="mb-3">Schedule</h2>
-        <form action="/uploadschedule" method="post" enctype="multipart/form-data">
-            <input name="schedulefile" type="file">
-            <input type="checkbox" name="week" value="week">
-            <label for="week">Weekly</label>
-            <input class="btn btn-lg btn-success mt-2" type="submit" value="Upload Schedule">
-          </form>
-    </div>
 
-    <div class="container-fluid adminpanel text-center mt-5">
-        <h2 class="mb-3">Casting</h2>
+<h1 class="title">Admin</h1> <br>
+<div class="contain-fluid position-relative mb-5">
+    <div class="smallbox2">
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+        <h5 class="alert-{{category}} top-50 start-50 translate-middle">{{ message }}</h5>
+        {% endfor %}
+    </div>
+</div>
+<div class="adminpanel text-center mt-5">
+    <h2 class="mb-3">Schedule</h2>
+    <form action="/uploadschedule" method="post" enctype="multipart/form-data">
+        <input name="schedulefile" type="file">
+        <input type="checkbox" name="week" value="week">
+        <label for="week">Weekly</label>
+        <input class="btn btn-lg btn-success ms-3 mt-2" type="submit" value="Upload Schedule">
+    </form>
+</div>
 
-        <form action="/uploadcasting" method="post" enctype="multipart/form-data">
-            <input name="castingfile" type="file">
-            <input class="btn btn-lg btn-success" type="submit" value="Upload Casting">
-          </form>
-    
-            <form class="mt-5" action="/removecasting" method="post">
-                <select name="casting"> 
-                    <option selected disabled>Select file</option>
-                    {% for cast in castings %}
-                    <option value="{{ cast.id }}">{{ cast.name }}</option>
-                    {% endfor %}
-                </select>
-                <input class="btn btn-sm btn-danger" type="submit" value="Remove Casting">
-            </form>
-        </div>
-    
+<div class="container-fluid adminpanel text-center mt-5">
+    <h2 class="mb-3">Casting</h2>
+
+    <form action="/uploadcasting" method="post" enctype="multipart/form-data">
+        <input name="castingfile" type="file">
+        <input class="btn btn-lg btn-success ms-3" type="submit" value="Upload Casting">
+    </form>
+
+    <form class="mt-5" action="/removecasting" method="post">
+        <select name="casting">
+            <option selected disabled>Select file</option>
+            {% for cast in castings %}
+            <option value="{{ cast.id }}">{{ cast.name }}</option>
+            {% endfor %}
+        </select>
+        <input class="btn btn-sm btn-danger ms-1" type="submit" value="Remove Casting">
+    </form>
+</div>
+
 
 {% endblock %}
