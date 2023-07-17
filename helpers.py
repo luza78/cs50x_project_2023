@@ -137,17 +137,27 @@ def upload_schedule(filename):
     # Create cursor
     cur = conn.cursor()
 
-    # Update db, registering the user
+    # Avoid duplicate file
+    sql = "SELECT * FROM schedule WHERE name = ?;"
+    select = (filename, )
+    cur.execute(sql, select)
     
-    sql = "INSERT INTO schedule(name) VALUES(?);"
-    insert = (filename, )
-    cur.execute(sql, insert)
+    db_lookup = cur.fetchone()
 
-    conn.commit()
+    if db_lookup:
+        return False
+    
+    else:
+        # Update db, registering the user
+        sql = "INSERT INTO schedule(name) VALUES(?);"
+        insert = (filename, )
+        cur.execute(sql, insert)
 
-    # Close connection
-    conn.close()
-    return
+        conn.commit()
+
+        # Close connection
+        conn.close()
+    return True
 
 def upload_schedule_is_week(filename):
     # Connect Database
@@ -155,18 +165,21 @@ def upload_schedule_is_week(filename):
     
     # Create cursor
     cur = conn.cursor()
+    # Avoid duplicate file
+    sql = "SELECT * FROM schedule WHERE name = ?;"
+    select = (filename, )
+    cur.execute(sql, select)
+    db_lookup = cur.fetchone()
+    if db_lookup:
+        return False
 
     # Update db, registering the user
-    
     sql = "INSERT INTO schedule(name, type) VALUES(?, 'week');"
     insert = (filename, )
     cur.execute(sql, insert)
-
     conn.commit()
-
-    # Close connection
     conn.close()
-    return
+    return True
 
 def remove_schedule(name):
     conn = sqlite3.connect("intranet.db")
@@ -192,17 +205,28 @@ def upload_casting(data, filename):
     # Create cursor
     cur = conn.cursor()
 
-    # Update db, registering the user
+    # Avoid duplicate file
+    sql = "SELECT * FROM casting WHERE name = ?;"
+    select = (filename, )
+    cur.execute(sql, select)
     
-    sql = "INSERT INTO casting(name, file) VALUES(?, ?);"
-    insert = (filename, data)
-    cur.execute(sql, insert)
+    db_lookup = cur.fetchone()
 
-    conn.commit()
+    if db_lookup:
+        return False
+    
+    else:
 
-    # Close connection
-    conn.close()
-    return
+        # Update db, registering the user
+        sql = "INSERT INTO casting(name, file) VALUES(?, ?);"
+        insert = (filename, data)
+        cur.execute(sql, insert)
+
+        conn.commit()
+
+        # Close connection
+        conn.close()
+        return True
 
 def remove_casting(id):
     conn = sqlite3.connect("intranet.db")
@@ -315,3 +339,11 @@ def login_required_admin(f):
             return redirect("/logout")
         return f(*args, **kwargs)
     return decorated_function
+
+def is_valid_file_extension(name, extensions):
+    for ext in extensions:
+        if ext in name.rsplit('.', 1)[1]:
+            print("EXT ACCEPTED")
+            return True
+    return False
+        
