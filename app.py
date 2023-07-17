@@ -1,7 +1,7 @@
 from helpers import (login_required, login_required_admin, get_user, register_user, admin_add_user,
                       admin_get_users, admin_remove_user, admin_change_user_type, admin_reset_user_password,
                         upload_casting, get_casting_file, get_casting, remove_casting, upload_schedule,
-                          upload_schedule_is_week, schedule_today, schedule_week)
+                          remove_schedule, upload_schedule_is_week, schedule_today, schedule_week)
 
 from flask import Flask, render_template, redirect, request, session, flash, send_file
 from flask_session import Session
@@ -17,6 +17,8 @@ app = Flask(__name__)
 
 # Configure uploads
 app.config['UPLOAD_FOLDER'] = "static/uploads/schedule"
+
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'doc', 'docx', 'xls' 'xlsx'}
 
 # Max upload size in bytes (40 MB)
 app.config['MAX_CONTENT_PATH'] = "40000000"
@@ -51,7 +53,7 @@ def login():
         
         # Handles if email not found
         if not db_lookup:
-            flash("Email is not recognized", "error")
+            flash("Email is not recognized, make sure you are registered!", "error")
             return render_template("login.html")
         
         # Need to hash password etc
@@ -97,7 +99,7 @@ def register():
         db_email = get_user(email)
 
         if not db_email:
-            flash("Email not found", "error")
+            flash("Email not found. Make sure you have been added to the system", "error")
             return render_template("register.html")
         
         # Checks if they have set a password yet
@@ -152,13 +154,11 @@ def scheduleview(file_name):
 def download(dl_id):
     
     if dl_id:
-        
         path = os.getcwd() + "/static/downloads/" + dl_id
 
         return send_file(path, dl_id, as_attachment=True)
     
     else:
-        
         return redirect("/documents")
 
 
@@ -208,12 +208,20 @@ def documents():
     
     return render_template("documents.html")
 
-# Admin only control panel. Allows to add / remove schedule
+# Admin only control panel. Allows to add / remove schedule + casting
 @app.route("/admin")
 @login_required_admin
 def admin():
+    # Path to where schedules are uploaded to
+    path = os.getcwd() + "/static/uploads/schedule"
+    
+    # Query db to get castings
     castings = get_casting()
-    return render_template("admin.html", castings=castings)
+    
+    # Store a list of files in our schedules folder
+    schedules = os.listdir(path)
+    print(schedules)
+    return render_template("admin.html", castings=castings, schedules=schedules)
 
 @app.route("/uploadschedule", methods=["POST"])
 @login_required_admin
@@ -221,40 +229,60 @@ def uploadschedule():
     
     upload_file = request.files["schedulefile"]
     file_name = secure_filename(upload_file.filename)
-    type = request.form.get("week")
+    if file_name:
+        type = request.form.get("week")
 
-    if upload_file:
+        if upload_file:
+            upload_file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
         
-        upload_file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
-      
-        if type is not None:
-            upload_schedule_is_week(file_name)
-        
-        elif type is None:
-            upload_schedule(file_name)
+            if type is not None:
+                upload_schedule_is_week(file_name)
+            
+            elif type is None:
+                upload_schedule(file_name)
 
-        flash(f"Upload of '{file_name}' succesful", "green")
+            flash(f"Upload of '{file_name}' succesful", "green")
+            return redirect("/admin")
+        
+        else:
+            flash("Upload error", "error")
+            return redirect("/admin")
+    
+    
+    
+@app.route("/removeschedule", methods=["POST"])
+@login_required_admin
+def removeschedule():
+    file = request.form.get("schedule")
+
+    if file:
+        path = os.getcwd() + "/static/uploads/schedule/" + file
+        os.remove(path)
+        remove_schedule(file)
+        
+        flash(f"'{file}' Has been removed from schedules", "green")
         return redirect("/admin")
     
     else:
-        flash("Upload error", "error")
+        flash("An error occurred while removing a schedule", "error")
         return redirect("/admin")
+
 
 @app.route("/uploadcasting", methods=["POST"])
 @login_required_admin
 def uploadcasting():
-    
+    # Gets file
     upload_file = request.files["castingfile"]
 
     if upload_file:
-        
+        # Reads uploads and name into variables
         data = upload_file.read()
         file_name = upload_file.filename
         
         if data:
             upload_casting(data, file_name)
 
-        flash(f"Upload of {file_name} was succesful", "green")
+        flash(f"Upload of '{file_name}' was succesful", "green")
         return redirect("/admin")
     else:
         flash("Upload error", "error")

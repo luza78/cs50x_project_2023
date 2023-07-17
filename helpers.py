@@ -168,6 +168,23 @@ def upload_schedule_is_week(filename):
     conn.close()
     return
 
+def remove_schedule(name):
+    conn = sqlite3.connect("intranet.db")
+    
+    # Create cursor
+    cur = conn.cursor()
+
+    # Deletes schedule entry from DB
+    sql = "DELETE FROM schedule WHERE name = ?;"
+    remove = (name, )
+    cur.execute(sql, remove)
+
+    conn.commit()
+
+    # Close connection
+    conn.close()
+    return
+
 def upload_casting(data, filename):
     # Connect Database
     conn = sqlite3.connect("intranet.db")
@@ -240,7 +257,7 @@ def get_casting_file(id):
     sql = "SELECT file, name FROM casting WHERE id = ?;"
     
     # Make 'id' a tuple
-    select = (id,)
+    select = (id, )
     cur.execute(sql, select)
 
     db_lookup = cur.fetchone()

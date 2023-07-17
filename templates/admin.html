@@ -22,6 +22,16 @@ Project admin page
         <label for="week">Weekly</label>
         <input class="btn btn-lg btn-success ms-3 mt-2" type="submit" value="Upload Schedule">
     </form>
+
+    <form class="mt-5" action="/removeschedule" method="post">
+        <select name="schedule">
+            <option selected disabled>Select Schedule</option>
+            {% for schedule in schedules %}
+            <option value="{{ schedule }}">{{ schedule }}</option>
+            {% endfor %}
+        </select>
+        <input class="btn btn-sm btn-danger ms-1" type="submit" value="Remove Schedule">
+    </form>
 </div>
 
 <div class="container-fluid adminpanel text-center mt-5">
@@ -34,7 +44,7 @@ Project admin page
 
     <form class="mt-5" action="/removecasting" method="post">
         <select name="casting">
-            <option selected disabled>Select file</option>
+            <option selected disabled>Select Casting</option>
             {% for cast in castings %}
             <option value="{{ cast.id }}">{{ cast.name }}</option>
             {% endfor %}
