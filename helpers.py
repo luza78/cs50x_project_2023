@@ -103,7 +103,7 @@ def admin_reset_user_password(email):
     hash = ""
 
     # Resets User hash in DB allowing them to register again
-    sql = "UPDATE users SET hash = ? WHERE email = ?;"
+    sql = "UPDATE users SET hash = ?, name = '~ User not registered ~' WHERE email = ?;"
     update = (hash, email)
     cur.execute(sql, update)
 

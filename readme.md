@@ -6,6 +6,7 @@ $ 'Intranet' is a Python web application using the Flask framework.
 $ The goal og this project was to create an application that hosts, receives and distributes information to employees.
 $ The project uses sqlite3 to handle the database consisting of 3 tables that keeps track of users, file uploads, and even stores files by $ converting them to binary before storing them in our database as a BLOB
 
+````````````````````````````
 ## Key Features:
 ````````````````````````````
 
@@ -20,6 +21,7 @@ $ The project uses sqlite3 to handle the database consisting of 3 tables that ke
 * Users have access to view and download files from the site
 * Uses a sqlite3 db containing 3 tables to keep track of users, casting, and keeping track of the schedule.
 
+````````````````````````````
 ## Picking my project:
 ````````````````````````````
 
@@ -32,6 +34,7 @@ $ castings, yearly schedules and other documents.
 $ I thought to myself we can improve this, and hopefully by doing so
 $ make myself, my colleagues', and my superiors' life a little better if we had it all in a centralized hub.
 
+````````````````````````````
 ## Acknowledgement:
 ````````````````````````````
 
@@ -40,7 +43,7 @@ $ make myself, my colleagues', and my superiors' life a little better if we had 
 ~ participate. This is the start of an incredible journey for me.
 ~ Truly THANK YOU <3
 
-
+````````````````````````````
 ## Author:
 ````````````````````````````
 

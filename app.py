@@ -234,10 +234,10 @@ def uploadschedule():
                     flash(f"Upload of '{file_name}' succesful", "green")
                     return redirect("/admin")
         
-        # If file variable is empty
-        else:
-            flash("Upload error", "error")
-            return redirect("/admin")
+    # If file variable is empty
+    else:
+        flash("Select a file", "error")
+        return redirect("/admin")
    
    # If filename already exists
     flash("File with that name already exists", "error")
@@ -258,7 +258,7 @@ def removeschedule():
         return redirect("/admin")
     
     else:
-        flash("An error occurred while removing a schedule", "error")
+        flash("No file selected, no changes made", "error")
         return redirect("/admin")
 
 
@@ -290,6 +290,9 @@ def uploadcasting():
         else:
             flash("Data error", "error")
             return redirect("/admin")
+    else:
+        flash("Select a file", "error")
+        return redirect("/admin")
     
 # Removes casting file entry from db
 @app.route("/removecasting", methods=["POST"])

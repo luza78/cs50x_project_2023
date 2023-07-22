@@ -7,14 +7,14 @@ Project admin page
 {% block body %}
 
 <h1 class="title">Admin</h1> <br>
-<div class="contain-fluid position-relative mb-5">
+<div class="contain-fluid position-relative">
     <div class="smallbox2">
         {% for category, message in get_flashed_messages(with_categories=True) %}
         <h5 class="alert-{{category}} top-50 start-50 translate-middle">{{ message }}</h5>
         {% endfor %}
     </div>
 </div>
-<div class="adminpanel text-center mt-5">
+<div class="adminpanel text-center mt-3">
     <h2 class="mb-3">Schedule</h2>
     <form action="/uploadschedule" method="post" enctype="multipart/form-data">
         <input name="schedulefile" type="file">
