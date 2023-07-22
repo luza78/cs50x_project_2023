@@ -2,6 +2,7 @@
 #### Video Demo:  <URL HERE>
 #### Description:
 ````````````````````````````
+
 $ 'Intranet' is a Python web application using the Flask framework.
 $ The goal og this project was to create an application that hosts, receives and distributes information to employees.
 $ The project uses sqlite3 to handle the database consisting of 3 tables that keeps track of users, file uploads, and even stores files by $ converting them to binary before storing them in our database as a BLOB
